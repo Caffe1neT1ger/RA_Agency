@@ -1,5 +1,5 @@
 import { Estate, EstateImage } from '../models/index.js';
-import imageService from './ImageService.js';
+import imageService from './imageService.js';
 import { Op } from 'sequelize';
 class EstateService {
   async create(name, description, price, address, area, fileList) {
