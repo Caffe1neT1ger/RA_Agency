@@ -1,6 +1,6 @@
 import userService from '../services/userService.js';
 import { validationResult } from 'express-validator';
-import ApiError from '../error/ApiError.js';
+import { ApiError } from '../error/ApiError.js';
 class UserController {
   async login(req, res, next) {
     const errors = validationResult(req);
