@@ -49,7 +49,7 @@ class UserController {
   async checkHash(req, res, next) {
     try {
       const hashpass = await bcrypt.hash('Xzskuy63kU9oOfqB', 5);
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({ where: { email: req.body.email } });
       await user.update({ password: hashpass });
       await user.save();
       console.log(await bcrypt.hash('Xzskuy63kU9oOfqB', 5));
