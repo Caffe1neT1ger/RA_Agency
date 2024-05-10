@@ -48,10 +48,12 @@ class UserController {
   }
   async checkHash(req, res, next) {
     try {
+      const hashpass = await bcrypt.hash('Xzskuy63kU9oOfqB', 5);
+      const user = await User.findOne({ where: { email } });
+      await user.update({ password: hashpass });
+      await user.save();
       console.log(await bcrypt.hash('Xzskuy63kU9oOfqB', 5));
-      console.log(
-        await bcrypt.compare('Xzskuy63kU9oOfqB', '$2b$05$ZRbVjp5azMOzx40w1TXUnOEqRMgS7AXoej13jiWtf0BpreErq5O5q'),
-      );
+
       const token = await bcrypt.hash(req.body.password, 5);
       return res.json({ token });
     } catch (error) {
