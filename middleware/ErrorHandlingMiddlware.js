@@ -1,9 +1,10 @@
 import ApiError from '../error/ApiError.js';
 
-export default (err, req, res, next) => {
-  if (err instanceof ApiError) {
-    return res.status(err.status).json({ message: err.message });
+export const errorMiddlware = (error, req, res, next) => {
+  console.log(error);
+  if (error instanceof ApiError) {
+    return res.status(error.status).json({ message: error.message, errors: error.errors });
   }
-
-  return res.status(500).json({ message: 'Непредвиденная ошибка' });
+  // return res.status(500).json({ message: 'Непредвиденная ошибка' });
+  return next(error);
 };

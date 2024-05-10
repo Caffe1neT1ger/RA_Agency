@@ -1,6 +1,7 @@
 import { User } from '../models/index.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import ApiError from '../error/ApiError.js';
 const generateJWT = (id, email, role) => {
   return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
     expiresIn: '24h',
@@ -11,11 +12,11 @@ class UserService {
   async login(email, password) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      throw ApiError.internal('Пользовтеля с таким e-mail не существует');
+      throw ApiError.BadRequest('Пользовтеля с таким e-mail не существует');
     }
     let comparePassword = bcrypt.compareSync(password, user.password);
     if (!comparePassword) {
-      throw ApiError.internal('Указан неверный пароль');
+      throw ApiError.BadRequest('Указан неверный пароль');
     }
 
     const token = generateJWT(user.id, user.email, user.role);

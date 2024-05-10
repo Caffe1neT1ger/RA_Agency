@@ -1,18 +1,19 @@
-class ApiError extends Error {
-  constructor(status, message) {
-    super();
+export class ApiError extends Error {
+  constructor(status, message, errors) {
+    super(message);
     this.status = status;
-    this.message = message;
+    this.errors = errors;
   }
-  static badRequest(message) {
-    return new ApiError(404, message);
+
+  static UnauthorizedError() {
+    return new ApiError(401, 'Пользователь не авторизован');
   }
-  static internal(message) {
-    return new ApiError(502, message);
+
+  static BadRequest(message, errors) {
+    return new ApiError(400, message, errors);
   }
-  static forbiden(message) {
-    return new ApiError(403, message);
+
+  static Forbidden() {
+    return new ApiError(403, 'Недостаточно прав');
   }
 }
-
-export default ApiError;
