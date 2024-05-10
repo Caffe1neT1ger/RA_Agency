@@ -8,7 +8,13 @@ class StatementService {
     }
     const statement = await Statement.create({ name, phone, email, text, consultation: consultation });
 
-    const ownerEmail = await ownerService.getEmail();
+    const ownerData = await OwnerData.findAll();
+
+    if (!ownerData) {
+      return next(ApiError.BadRequest('Данных не существует'));
+    }
+
+    const ownerEmail = ownerData[0].dataValues.email;
 
     await mailService.sendStatementMail(ownerEmail, name, phone, email, text, consultation);
 
@@ -18,7 +24,7 @@ class StatementService {
   async getOne(id) {
     const statement = await Statement.findOne({ where: { id } });
     if (!statement) {
-      console.log('Заявки не существует');
+      return ApiError.BadRequest('Заявки не существует');
     }
     return statement;
   }
@@ -31,7 +37,7 @@ class StatementService {
   async remove(statementId) {
     const statement = await Statement.findOne({ where: { id: statementId } });
     if (!statement) {
-      console.log('Заявки не существует');
+      return ApiError.BadRequest('Заявки не существует');
     }
     await Statement.destroy({ where: { id: statementId } });
     return statement;
