@@ -1,3 +1,4 @@
+import { ApiError } from '../error/ApiError.js';
 import { Estate, EstateImage } from '../models/index.js';
 import imageService from './imageService.js';
 import { Op } from 'sequelize';
@@ -31,7 +32,7 @@ class EstateService {
     const estate = await Estate.findOne({ where: { id: estateId } });
 
     if (!estate) {
-      console.log('Недвиги не существует');
+      return ApiError.BadRequest('Недвиги не существует');
     }
 
     const deletedImage = await EstateImage.findAll({ where: { estate_id: estateId } });
@@ -46,7 +47,7 @@ class EstateService {
       where: { id: estateId },
     });
     if (!estate) {
-      console.log('Недвиги не существует');
+      return ApiError.BadRequest('Недвиги не существует');
     }
     return estate;
   }

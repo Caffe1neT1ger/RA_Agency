@@ -1,4 +1,4 @@
-import { Review } from '../models';
+import { Review } from '../index.js';
 
 class ReviewService {
   async create(author, text) {
@@ -15,7 +15,7 @@ class ReviewService {
     const review = await Review.findOne({ where: { id: reviewId } });
 
     if (!review) {
-      console.log('Отзыва не  существует');
+      return ApiError.BadRequest('Отзыва не  существует');
     }
 
     const removedReview = await Review.destroy({ where: { id: reviewId }, returning: true });
@@ -37,7 +37,7 @@ class ReviewService {
       where: { id: reviewId },
     });
     if (!review) {
-      console.log('Отзыва не существует');
+      return ApiError.BadRequest('Отзыва не существует');
     }
     return review;
   }

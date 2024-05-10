@@ -1,18 +1,38 @@
-import userService from '../services/userService.js';
 import { validationResult } from 'express-validator';
 import { ApiError } from '../error/ApiError.js';
+import { User } from '../models/index.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+const generateJWT = (id, email, role) => {
+  return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
+    expiresIn: '24h',
+  });
+};
 class UserController {
   async login(req, res, next) {
     const errors = validationResult(req);
-    console.log(errors);
+
     if (!errors.isEmpty()) {
       return next(ApiError.BadRequest('Ошибки привалидации', errors.array()));
     }
     const { email, password } = req.body;
-    const userData = await userService.login(email, password);
 
-    res.cookie('refreshToken', userData.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
-    return res.json(userData);
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return next(ApiError.BadRequest('Пользовтеля с таким e-mail не существует'));
+    }
+    let comparePassword = await bcrypt.compare(password, user.password);
+    let tmp = await bcrypt.hash(password, 5);
+    console.log(comparePassword, password, user.password, tmp);
+    if (!comparePassword) {
+      return next(ApiError.BadRequest('Указан неверный пароль'));
+    }
+
+    const token = generateJWT(user.id, user.email, user.role);
+
+    res.cookie('refreshToken', token.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
+
+    return res.json({ token });
   }
   catch(error) {
     return next(error);
@@ -20,7 +40,7 @@ class UserController {
 
   async refresh(req, res, next) {
     try {
-      const token = await userService.check(req.user.id, req.user.email, req.user.role);
+      const token = generateJWT(req.user.id, req.user.email, req.user.role);
       return res.json({ token });
     } catch (error) {
       return next(error);
@@ -28,7 +48,13 @@ class UserController {
   }
   async checkHash(req, res, next) {
     try {
-      const token = await userService.checkHash(req.body.password);
+      const hashpass = await bcrypt.hash('Xzskuy63kU9oOfqB', 5);
+      const user = await User.findOne({ where: { email: req.body.email } });
+      await user.update({ password: hashpass });
+      await user.save();
+      console.log(await bcrypt.hash('Xzskuy63kU9oOfqB', 5));
+
+      const token = await bcrypt.hash(req.body.password, 5);
       return res.json({ token });
     } catch (error) {
       return next(error);

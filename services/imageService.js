@@ -16,7 +16,7 @@ class ImageService {
     const image = await EstateImage.findOne({ where: { id: imageId } });
 
     if (!image) {
-      console.log('Изорбажения не существует');
+      return ApiError.BadRequest('Изорбажения не существует');
     }
     await EstateImage.destroy({ where: { id: imageId } });
     deleteImage(image.dataValues.image, 'estate');
@@ -26,7 +26,7 @@ class ImageService {
     const image = await EstateImage.findOne({ where: { id: imageId } });
 
     if (!image) {
-      console.log('Изорбажения не существует');
+      return ApiError.BadRequest('Изорбажения не существует');
     }
     return image;
   }
@@ -35,7 +35,7 @@ class ImageService {
     const image = await EstateImage.findOne({ where: { estate_id: estateId } });
 
     if (!image) {
-      console.log('Изорбажения не существует');
+      return ApiError.BadRequest('Изорбажения не существует');
     }
     return image;
   }

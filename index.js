@@ -7,7 +7,7 @@ import fileUpload from 'express-fileupload';
 
 import sequelize from './db.js';
 import router from './routes/index.js';
-import errorHandler from './middleware/errorHandlingMiddlware.js';
+import { errorMiddlware } from './middleware/errorHandlingMiddlware.js';
 
 const PORT = 5000 || process.env.PORT;
 const __dirname = path.resolve(path.dirname(''));
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/static', express.static(path.resolve(__dirname, './static/estate')));
 app.use(fileUpload({}));
 app.use('/api', router);
-app.use(errorHandler);
+app.use(errorMiddlware);
 
 const start = async () => {
   try {
