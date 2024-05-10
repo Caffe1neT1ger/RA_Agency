@@ -14,7 +14,7 @@ class UserService {
     if (!user) {
       throw ApiError.BadRequest('Пользовтеля с таким e-mail не существует');
     }
-    let comparePassword = bcrypt.compareSync(password, user.password);
+    let comparePassword = await bcrypt.compare(password, user.password);
     if (!comparePassword) {
       throw ApiError.BadRequest('Указан неверный пароль');
     }
