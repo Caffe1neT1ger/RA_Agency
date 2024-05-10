@@ -6,17 +6,17 @@ class OwnerController {
     try {
       const data = await ownerService.uploadData(name, address, email);
 
-      res.json(data);
+      return res.json(data);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
   async getData(req, res, next) {
     try {
       const ownerData = await ownerService.getData();
-      res.json(ownerData);
+      return res.json(ownerData);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

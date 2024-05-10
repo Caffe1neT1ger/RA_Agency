@@ -5,9 +5,9 @@ class ReviewController {
 
     try {
       const newReview = await reviewService.create(author, text, link);
-      res.json(newReview);
+      return res.json(newReview);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -16,9 +16,9 @@ class ReviewController {
 
     try {
       const removedReview = await reviewService.remove(reviewId);
-      res.json(removedReview);
+      return res.json(removedReview);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -27,9 +27,9 @@ class ReviewController {
 
     try {
       const allItems = await reviewService.getAll(limit, page);
-      res.json(allItems);
+      return res.json(allItems);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -38,9 +38,9 @@ class ReviewController {
 
     try {
       const review = await reviewService.getOne(id);
-      res.json(review);
+      return res.json(review);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

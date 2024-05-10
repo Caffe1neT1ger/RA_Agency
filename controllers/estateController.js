@@ -24,9 +24,9 @@ class EstateController {
     }
     try {
       const newEstate = await estateService.create(name, description, price, address, area, fileList);
-      res.json(newEstate);
+      return res.json(newEstate);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -34,9 +34,9 @@ class EstateController {
     const { estateId } = req.body;
     try {
       const deletedEstate = await estateService.remove(estateId);
-      res.json(deletedEstate);
+      return res.json(deletedEstate);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -45,9 +45,9 @@ class EstateController {
 
     try {
       const estate = await estateService.getOne(id);
-      res.json(estate);
+      return res.json(estate);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -55,9 +55,9 @@ class EstateController {
     const { limit = 9, page = 1, minPrice = 0, maxPrice = 999999, minArea = 0, maxArea = 999999 } = req.query;
     try {
       const allItems = await estateService.getAll(limit, page, minPrice, maxPrice, minArea, maxArea);
-      res.json(allItems);
+      return res.json(allItems);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

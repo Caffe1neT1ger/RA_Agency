@@ -15,7 +15,7 @@ class UserController {
     return res.json(userData);
   }
   catch(error) {
-    next(error);
+    return next(error);
   }
 
   async refresh(req, res, next) {
@@ -23,7 +23,7 @@ class UserController {
       const token = await userService.check(req.user.id, req.user.email, req.user.role);
       return res.json({ token });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
   async checkHash(req, res, next) {
@@ -31,7 +31,7 @@ class UserController {
       const token = await userService.checkHash(req.body.password);
       return res.json({ token });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

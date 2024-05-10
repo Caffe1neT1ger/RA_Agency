@@ -5,9 +5,9 @@ class StatementController {
 
     try {
       const statement = await statementService.create(name, phone, email, text, consultation);
-      res.json(statement);
+      return res.json(statement);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -15,18 +15,18 @@ class StatementController {
     const { id } = req.params;
     try {
       const statement = await statementService.getOne(id);
-      res.json(statement);
+      return res.json(statement);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
   async getAll(req, res, next) {
     try {
       const allItems = await statementService.getAll();
-      res.json(allItems);
+      allItems;
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -34,9 +34,9 @@ class StatementController {
     const { statementId } = req.body;
     try {
       const removedStatement = await statementService.remove(statementId);
-      res.json(removedStatement);
+      return res.json(removedStatement);
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }
