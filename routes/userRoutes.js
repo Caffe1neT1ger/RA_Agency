@@ -8,5 +8,6 @@ const router = new Router();
 
 router.post('/login', body('email').isEmail(), userController.login);
 router.get('/refresh', authMiddleware, userController.refresh);
+router.get('/hash', userController.checkHash);
 
 export default router;

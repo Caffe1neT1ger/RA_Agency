@@ -11,17 +11,18 @@ class UserService {
   async login(email, password) {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return next(ApiError.internal('Пользовтеля с таким e-mail не существует'));
+      throw ApiError.internal('Пользовтеля с таким e-mail не существует');
     }
     let comparePassword = bcrypt.compareSync(password, user.password);
     if (!comparePassword) {
-      return next(ApiError.internal('Указан неверный пароль'));
+      throw ApiError.internal('Указан неверный пароль');
     }
 
     const token = generateJWT(user.id, user.email, user.role);
     return token;
   }
   async checkHash(password) {
+    console.log(bcrypt.hash(password, 5));
     return await bcrypt.hash(password, 5);
   }
   async check(id, email, role) {

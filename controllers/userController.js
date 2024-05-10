@@ -25,6 +25,14 @@ class UserController {
       next(error);
     }
   }
+  async checkHash(req, res, next) {
+    try {
+      const token = await userService.checkHash(req.body.password);
+      return res.json({ token });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new UserController();
