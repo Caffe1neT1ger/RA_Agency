@@ -10,6 +10,11 @@
 
 # REST API #
 The REST API to the example app is described below. 
+
+	Headers {
+   		"Content-Type": "application/json"
+	}
+ 
 ## 1. User controler ##
 ## 1.1 Login ##
 ` POST /api/user/login `
@@ -31,6 +36,10 @@ The REST API to the example app is described below.
 ## 1.2 Refresh Token ##
 ` GET /api/user/refresh `
 ### Request  ###
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
  {} 
 ### Resonpse  ###
 
@@ -44,6 +53,10 @@ The REST API to the example app is described below.
 ## 2.1 Create estate ##
 ` POST /api/estate `
 ### Request ###
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
 
  	"name": String,
 	"description": String,
@@ -174,6 +187,10 @@ The REST API to the example app is described below.
 ##  2.4 Remove estate ##
 ` DELETE /api/estate `
 ### Request ###
+	Headers {
+		"Authorization" : "Bearer 'your token'",
+		"Content-Type": "application/json"
+	}
 
     "estateId": Number
 
@@ -190,7 +207,11 @@ The REST API to the example app is described below.
 ## 3.1 Create Statement ##
 ` POST /api/statement/`
 ### Request ###
-
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
+ 
     "name":String,
     "email":String,
     "text":String,
@@ -230,7 +251,10 @@ The REST API to the example app is described below.
 ## 3.2 Get One Statement ##
 ` GET /api/statement/:id`
 ### Request ###
-
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
 ### Response ###
 	
     "id": Number,
@@ -256,7 +280,10 @@ The REST API to the example app is described below.
 ## 3.3 Get All Statement ##
 ` GET /api/statement/`
 ### Request ###
-
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
 ### Response ###
 	
     [
@@ -289,7 +316,11 @@ The REST API to the example app is described below.
 ## 3.4 Remove Statement ##
 ` DELETE /api/statement/`
 ### Request ###
-
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
+ 
     "statementId":String
 
 {
@@ -326,7 +357,11 @@ The REST API to the example app is described below.
 ## 4.1 Upload Data  ##
 ` POST /api/owner/`
 ### Request ###
-
+	Headers {
+ 		"Authorization" : "Bearer 'your token'",
+   		"Content-Type": "application/json"
+	}
+ 
     "name":String,
     "address":String",
     "email":String
